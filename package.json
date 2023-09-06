@@ -5,13 +5,24 @@
 	"main": "index.js",
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1",
-		"dev": "tsc -w & nodemon -w dist -e js,json,gql,prisma dist/index.js"
+		"dev": "cp -r src/api dist/api & tsc -w & nodemon -w dist -e js,json,gql,prisma dist/index.js",
+		"devbuild": "tsc -w",
+		"startbuild": "nodemon -w dist -e js,json,gql,prisma dist/index.js"
 	},
 	"keywords": [],
 	"author": "Juan Carlos Labrandero",
 	"license": "ISC",
 	"dependencies": {
-		"express": "^4.18.2"
+		"@apollo/server": "^4.9.3",
+		"@graphql-tools/load-files": "^7.0.0",
+		"@graphql-tools/merge": "^9.0.0",
+		"@graphql-tools/schema": "^10.0.0",
+		"@graphql-tools/utils": "^10.0.6",
+		"body-parser": "^1.20.2",
+		"cors": "^2.8.5",
+		"express": "^4.18.2",
+		"express4": "link:@apollo/server/express4",
+		"graphql": "^16.8.0"
 	},
 	"devDependencies": {
 		"@types/node": "^20.5.9",

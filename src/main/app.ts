@@ -6,21 +6,49 @@
 import http, { Server } from 'http'
 
 import express, { Express } from 'express'
+import { ApolloServer } from '@apollo/server'
+import { expressMiddleware } from '@apollo/server/express4';
+import cors from 'cors'
+import { json } from 'body-parser'
 
 import Routes from './routes'
+import { Resolver } from '../modules'
 
 class App {
 	express : Express
 	server : Server
+	graphql : ApolloServer
+
 	routes : Routes
+	api : Resolver
 
 	constructor() {
 		this.express = express()
 
 		this.server = http.createServer(this.express)
 		this.routes = new Routes()
+		this.api = new Resolver()
 
+		this.init()
+	}
+
+	async init() : Promise<void> {
 		this.express.use('/', this.routes.router)
+
+		this.graphql = new ApolloServer({
+			schema: this.api.schema,
+			introspection: true
+		})
+		await this.graphql.start()
+
+		this.express.use(
+			'/graphql',
+			cors<cors.CorsRequest>(),
+			json(),
+			expressMiddleware(this.graphql, {
+				context: this.api.buildContext
+			})
+		)
 
 		this.server.listen(3000, () => {
 			console.log('Server ready')
