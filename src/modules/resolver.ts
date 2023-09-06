@@ -36,7 +36,8 @@
 		 return mergeResolvers([
 			 {
 				 Query: {
-					 users: user.index
+					 users: user.index,
+					 user: user.user
 				 }
 			 }
 		 ])

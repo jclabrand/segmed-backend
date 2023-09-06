@@ -9,6 +9,8 @@ interface IContextValue {
 
 interface IUser {
 	id: String
+	userName: String
+	displayName?: String
 }
 
 export { IUser, IContextValue }

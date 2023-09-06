@@ -1,8 +1,11 @@
 
 type User {
 	id:	String!
+	userName: String!
+	displayName: String
 }
 
 type Query {
 	users: [User!]!
+	user(userName: String!): User!
 }

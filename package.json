@@ -5,7 +5,9 @@
 	"main": "index.js",
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1",
-		"dev": "cp -r src/api dist/api & tsc -w & nodemon -w dist -e js,json,gql,prisma dist/index.js"
+		"dev": "cp -r src/api dist/api & tsc -w & nodemon -w dist -e js,json,gql,prisma dist/index.js",
+		"devbuild": "tsc -w",
+		"startbuild": "nodemon -w dist -e js,json,gql,prisma dist/index.js"
 	},
 	"keywords": [],
 	"author": "Juan Carlos Labrandero",
