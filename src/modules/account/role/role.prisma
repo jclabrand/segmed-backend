@@ -1,0 +1,28 @@
+
+// Copyright (C) 2023, All Rights Reserved
+// Written by Juan Carlos Labrandero <jcharly@labrandero.com>
+
+
+import { UserRole } from "../user/user"
+import { Permission } from "../permission/permission"
+
+
+model Role {
+	id			String	@id @default(cuid())
+	name		String	@unique
+	description	String?
+
+	members		UserRole[]
+	permissions	RolePermission[]
+}
+
+
+model RolePermission {
+	roleId			String
+	permissionId	String
+
+	role		Role		@relation(fields: [roleId], references: [id])
+	permission	Permission	@relation(fields: [permissionId], references: [id])
+
+	@@id([ roleId, permissionId ])
+}

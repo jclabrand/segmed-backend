@@ -1,0 +1,14 @@
+
+// Copyright (C) 2023, All Rights Reserved
+// Written by Juan Carlos Labrandero <jcharly@labrandero.com>
+
+
+import { RolePermission } from "../role/role"
+
+
+model Permission {
+	id		String		@id @default(cuid())
+	name	String
+
+	roles	RolePermission[]
+}
