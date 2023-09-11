@@ -1,0 +1,30 @@
+
+# Copyright (C) 2023, All Rights Reserved
+# Written by Juan Carlos Labrandero <jcharly@labrandero.com>
+
+type User {
+	id:				String!
+	userName:		String!
+	displayName:	String
+	email:			String
+
+	roles: [Role!]!
+}
+
+input IUserCreateArgs {
+	userName:			String!
+	displayName:		String
+	mail:				String
+
+	password:			String
+	confirmPassword:	String
+}
+
+
+type Query {
+	users: [User!]!
+} 
+
+type Mutation {
+	createUser(data: IUserCreateArgs!): User!
+}
