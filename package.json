@@ -5,7 +5,9 @@
 	"main": "index.js",
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1",
-		"dev": "cp -r src/api dist/api & tsc -w & nodemon -w dist -e js,json,gql,prisma dist/index.js"
+		"build-dev": "rsync -am --include='*.gql' --include='*/' --exclude='*' src/modules dist/api && tsc -w",
+		"start-dev": "nodemon -w dist -e js,json,gql,prisma dist/index.js",
+		"build-db": "prisma-import -s src/**/*.prisma -o dist/schema.prisma && prisma generate --schema=./dist/schema.prisma && prisma migrate dev --schema=./dist/schema.prisma"
 	},
 	"keywords": [],
 	"author": "Juan Carlos Labrandero",
@@ -16,6 +18,7 @@
 		"@graphql-tools/merge": "^9.0.0",
 		"@graphql-tools/schema": "^10.0.0",
 		"@graphql-tools/utils": "^10.0.6",
+		"@prisma/client": "5.2.0",
 		"body-parser": "^1.20.2",
 		"cors": "^2.8.5",
 		"express": "^4.18.2",
@@ -25,6 +28,8 @@
 	"devDependencies": {
 		"@types/node": "^20.5.9",
 		"nodemon": "^3.0.1",
+		"prisma": "^5.2.0",
+		"prisma-import": "^1.0.4",
 		"typescript": "^5.2.2"
 	}
 }
