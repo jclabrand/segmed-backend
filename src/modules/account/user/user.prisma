@@ -1,0 +1,28 @@
+
+// Copyright (C) 2023, All Rights Reserved
+// Written by Juan Carlos Labrandero <jcharly@labrandero.com>
+
+
+import { Role } from "../role/role"
+
+
+model User {
+	id			String	@id @default(cuid())
+	userName	String	@unique
+	displayName	String?
+	email		String?
+
+	directory	String @default("LOCAL") // LOCAL, AD, 
+
+	roles		UserRole[]
+}
+
+model UserRole {
+	userId	String
+	roleId	String
+
+	user	User	@relation(fields: [userId], references: [id])
+	role	Role	@relation(fields: [roleId], references: [id])
+
+	@@id([ userId, roleId ])
+}
