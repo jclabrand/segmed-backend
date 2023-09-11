@@ -12,15 +12,17 @@ import cors from 'cors'
 import { json } from 'body-parser'
 
 import Routes from './routes'
-import { Resolver } from '../modules'
+import Resolver from './resolver'
+import Database from './database'
 
 class App {
-	express : Express
-	server : Server
-	graphql : ApolloServer
+	express:	Express
+	server:		Server
+	graphql:	ApolloServer
 
-	routes : Routes
-	api : Resolver
+	routes:	Routes
+	api:	Resolver
+	db:		Database
 
 	constructor() {
 		this.express = express()
@@ -28,6 +30,7 @@ class App {
 		this.server = http.createServer(this.express)
 		this.routes = new Routes()
 		this.api = new Resolver()
+		this.db = new Database()
 
 		this.init()
 	}
@@ -46,7 +49,7 @@ class App {
 			cors<cors.CorsRequest>(),
 			json(),
 			expressMiddleware(this.graphql, {
-				context: this.api.buildContext
+				context: this.api.buildContext({ db: this.db.client })
 			})
 		)
 
