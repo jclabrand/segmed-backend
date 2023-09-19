@@ -1,0 +1,5 @@
+
+# Copyright (C) 2023, All Rights Reserved
+# Written by Juan Carlos Labrandero <jcharly@labrandero.com>
+
+directive @authorized on FIELD | FIELD_DEFINITION
