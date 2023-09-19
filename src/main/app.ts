@@ -7,6 +7,9 @@ import http, { Server } from 'http'
 
 import express, { Express } from 'express'
 import { ApolloServer } from '@apollo/server'
+import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer'
+import { WebSocketServer } from 'ws'
+import { useServer } from 'graphql-ws/lib/use/ws'
 import { expressMiddleware } from '@apollo/server/express4';
 import cors from 'cors'
 import { json } from 'body-parser'
@@ -38,10 +41,31 @@ class App {
 	async init() : Promise<void> {
 		this.express.use('/', this.routes.router)
 
+		const httpServer = this.server
+			, schema = this.api.schema
+			, wsServer = new WebSocketServer({
+				server: httpServer,
+				path: '/graphql',
+			})
+			, serverCleanup = useServer({ schema }, wsServer)
+
 		this.graphql = new ApolloServer({
-			schema: this.api.schema,
+			schema,
+			plugins: [
+				ApolloServerPluginDrainHttpServer({ httpServer }),
+				{
+					async serverWillStart() {
+						return {
+							async drainServer() {
+								await serverCleanup.dispose()
+							}
+						}
+					}
+				}
+			],
 			introspection: true
 		})
+
 		await this.graphql.start()
 
 		this.express.use(
@@ -49,7 +73,7 @@ class App {
 			cors<cors.CorsRequest>(),
 			json(),
 			expressMiddleware(this.graphql, {
-				context: this.api.buildContext({ db: this.db.client })
+				context: this.api.buildContext(this.db.client, this.api.pubsub)
 			})
 		)
 
