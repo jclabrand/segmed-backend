@@ -11,10 +11,20 @@ type User {
 	roles: [Role!]!
 }
 
+type Auth {
+	bearer:			String!
+	authorization:	String!
+}
+
+input ISignInArgs {
+	userName:	String!,
+	password:	String!
+}
+
 input IUserCreateArgs {
 	userName:			String!
 	displayName:		String
-	mail:				String
+	email:				String
 
 	password:			String
 	confirmPassword:	String
@@ -22,9 +32,17 @@ input IUserCreateArgs {
 
 
 type Query {
-	users: [User!]!
-} 
+	users: [User!]! @authorized
+	currentUser(bearer: String!): User! @authorized
+}
 
 type Mutation {
+	signIn(data: ISignInArgs!): Auth!
+	signOut(bearer: String!): String! @authorized
+
 	createUser(data: IUserCreateArgs!): User!
+}
+
+type Subscription {
+	userAdded: User!
 }
