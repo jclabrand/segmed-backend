@@ -15,6 +15,8 @@ model User {
 	directory	String @default("LOCAL") // LOCAL, AD, 
 
 	roles		UserRole[]
+	passwords	UserPassword[]
+	sessions	Session[]
 }
 
 model UserRole {
@@ -25,4 +27,27 @@ model UserRole {
 	role	Role	@relation(fields: [roleId], references: [id])
 
 	@@id([ userId, roleId ])
+}
+
+model UserPassword {
+	id			String	@unique @default(cuid())
+	encrypted	String
+	status		String	@default("A")
+
+	userName	String
+
+	user		User	@relation(fields: [userName], references: [userName])
+
+	@@id([userName, encrypted])
+}
+
+model Session {
+	id			String	@id @default(cuid())
+	publicKey	String	@db.VarChar(Max)
+	privateKey	String	@db.VarChar(Max)
+	status		String	@default("A")
+
+	userName	String
+
+	user		User	@relation(fields: [userName], references: [userName])
 }
