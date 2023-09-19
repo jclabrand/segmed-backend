@@ -3,10 +3,25 @@
  *	Written by Juan Carlos Labrandero <jcharly@labrandero.com>
  */
 
-import { PrismaClient } from "@prisma/client"
+import { Request } from 'express'
+import { PrismaClient, User, Session } from "@prisma/client"
+import { PubSub } from 'graphql-subscriptions'
 
 interface IContextValue {
-	db:	PrismaClient
+	req:		Request
+	db:			PrismaClient
+	pubsub:		PubSub
+	user?:		User
+	session?:	Session
 }
 
-export { IContextValue }
+interface IAuthPayload {
+	userName:		string
+	displayName:	string
+}
+
+enum SubscriptionEvents {
+	USER_ADDED = 'PSE_UA'
+}
+
+export { IContextValue, IAuthPayload, SubscriptionEvents }
