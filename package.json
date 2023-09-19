@@ -7,7 +7,9 @@
 		"test": "echo \"Error: no test specified\" && exit 1",
 		"build-dev": "rsync -am --include='*.gql' --include='*/' --exclude='*' src/modules dist/api && tsc -w",
 		"start-dev": "nodemon -w dist -e js,json,gql,prisma dist/index.js",
-		"build-db": "prisma-import -s src/**/*.prisma -o dist/schema.prisma && prisma generate --schema=./dist/schema.prisma && prisma migrate dev --schema=./dist/schema.prisma"
+		"build-db": "prisma-import -s src/**/*.prisma -o dist/schema.prisma && prisma generate --schema=./dist/schema.prisma",
+		"build-db-dev": "prisma-import -s src/**/*.prisma -o dist/schema.prisma && prisma generate --schema=./dist/schema.prisma && prisma migrate dev --schema=./dist/schema.prisma",
+		"build-db-migrate": "prisma migrate dev --schema=./dist/schema.prisma"
 	},
 	"keywords": [],
 	"author": "Juan Carlos Labrandero",
@@ -19,11 +21,16 @@
 		"@graphql-tools/schema": "^10.0.0",
 		"@graphql-tools/utils": "^10.0.6",
 		"@prisma/client": "5.2.0",
+		"bcrypt": "^5.1.1",
 		"body-parser": "^1.20.2",
 		"cors": "^2.8.5",
 		"express": "^4.18.2",
 		"express4": "link:@apollo/server/express4",
-		"graphql": "^16.8.0"
+		"graphql": "^16.8.0",
+		"graphql-subscriptions": "^2.0.0",
+		"graphql-ws": "^5.14.0",
+		"jsonwebtoken": "^9.0.2",
+		"ws": "^8.14.1"
 	},
 	"devDependencies": {
 		"@types/node": "^20.5.9",
