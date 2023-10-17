@@ -11,6 +11,7 @@ model User {
 	userName	String	@unique
 	displayName	String?
 	email		String?
+	active		Boolean @default(true)
 
 	directory	String @default("LOCAL") // LOCAL, AD, 
 

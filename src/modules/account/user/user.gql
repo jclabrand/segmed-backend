@@ -7,6 +7,7 @@ type User {
 	userName:		String!
 	displayName:	String
 	email:			String
+	active:			Boolean
 
 	roles: [Role!]!
 }
