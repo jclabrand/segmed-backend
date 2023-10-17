@@ -5,11 +5,18 @@
 	"main": "index.js",
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1",
-		"build-dev": "rsync -am --include='*.gql' --include='*/' --exclude='*' src/modules dist/api && tsc -w",
-		"start-dev": "nodemon -w dist -e js,json,gql,prisma dist/index.js",
-		"build-db": "prisma-import -s src/**/*.prisma -o dist/schema.prisma && prisma generate --schema=./dist/schema.prisma",
-		"build-db-dev": "prisma-import -s src/**/*.prisma -o dist/schema.prisma && prisma generate --schema=./dist/schema.prisma && prisma migrate dev --schema=./dist/schema.prisma",
-		"build-db-migrate": "prisma migrate dev --schema=./dist/schema.prisma"
+		
+		"dev:x": "mkdir -p dist/api && rsync -am --include='*.gql' --include='*/' --exclude='*' src/modules dist/api && prisma-import -s src/**/*.prisma -o dist/schema.prisma && prisma generate --schema=./dist/schema.prisma && tsc -w",
+		"dev:w": "xcopy src\\modules\\*.gql dist\\api\\ /S /-y && prisma-import -s src/**/*.prisma -o dist/schema.prisma && prisma generate --schema=./dist/schema.prisma && tsc -w",
+		
+		"start:dev": "nodemon -w dist -e js,json,gql,prisma dist/index.js",
+
+		"gql:x": "kdir -p dist/api && rsync -am --include='*.gql' --include='*/' --exclude='*' src/modules dist/api",
+		"gql:w": "xcopy src\\modules\\*.gql dist\\api\\ /S /-y",
+
+		"db:dev": "prisma-import -s src/**/*.prisma -o dist/schema.prisma && prisma generate --schema=./dist/schema.prisma && prisma migrate dev --schema=./dist/schema.prisma",
+		"db:schema": "prisma-import -s src/**/*.prisma -o dist/schema.prisma && prisma generate --schema=./dist/schema.prisma",
+		"db:migrate": "prisma migrate dev --schema=./dist/schema.prisma"
 	},
 	"keywords": [],
 	"author": "Juan Carlos Labrandero",
