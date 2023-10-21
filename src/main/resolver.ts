@@ -16,6 +16,8 @@ import AuthResolver from '../modules/account/auth/auth-resolver'
 import UserResolver from '../modules/account/user/user-resolver'
 import { IContextValue, SubscriptionEvents } from './types'
 
+import SupplierServiceTypeResolver from '../modules/parameters/suppliers/supplier-service-type.resolver'
+
 class Resolver {
 
 	schema:	GraphQLSchema
@@ -57,16 +59,23 @@ class Resolver {
 		const pubsub = this.pubsub
 			, user = new UserResolver()
 
+			, supplierServiceType = new SupplierServiceTypeResolver()
+
 		return mergeResolvers([
 			{
 				Query: {
 					users: user.index,
-					currentUser: user.current
+					currentUser: user.current,
+
+					supplierServiceTypes: supplierServiceType.index,
+					supplierServiceType: supplierServiceType.findOne
 				},
 				Mutation: {
 					signIn: user.signIn,
 					signOut: user.signOut,
-					createUser: user.create
+					createUser: user.create,
+
+					createSupplierServiceType: supplierServiceType.create
 				},
 				Subscription: {
 					userAdded: {
