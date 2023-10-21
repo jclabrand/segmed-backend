@@ -1,0 +1,39 @@
+
+model SupplierServiceType {
+	id		String	@id @default(cuid())
+	name	String	@unique		//	Medicamentos,		Medicamentos y Odontologia,			Medicina General,   
+
+	suppliers		Supplier[]
+}
+
+model Supplier {
+	id			String	@id @default(cuid())
+	code		String	@unique
+	nit			String
+	description	String
+
+	serviceTypeId	String
+
+	supplierServices	SupplierService[]
+
+	serviceType			SupplierServiceType	@relation(fields: [serviceTypeId], references: [id])
+}
+
+model SupplierSpecialtyType {
+	id		String	@id @default(cuid())
+	name	String	@unique
+
+	supplierServices	SupplierService[]
+}
+
+model SupplierService {
+	supplierId		String		//	Cies			Cies
+	specialtyTypeId	String		//	Odontologia		Dermotologia
+
+	name	String	@unique		//  Dr. Perez		Dr. Pereira
+
+	supplier		Supplier				@relation(fields: [supplierId], references: [id])
+	SpecialtyType	SupplierSpecialtyType	@relation(fields: [specialtyTypeId], references: [id])
+
+	@@id([supplierId, specialtyTypeId])
+}
