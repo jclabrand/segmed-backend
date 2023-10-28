@@ -9,6 +9,7 @@ input ISupplierServiceTypeArgs {
 	name: String!
 }
 
+
 type Query {
 	supplierServiceTypes: [SupplierServiceType!]! @authorized
 	supplierServiceType(id: String!): SupplierServiceType! @authorized
