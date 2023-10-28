@@ -17,6 +17,8 @@ import UserResolver from '../modules/account/user/user-resolver'
 import { IContextValue, SubscriptionEvents } from './types'
 
 import SupplierServiceTypeResolver from '../modules/parameters/suppliers/supplier-service-type.resolver'
+import SupplierSpecialtyTypeResolver from '../modules/parameters/suppliers/supplier-specialty-type.resolver'
+import SupplierRelevance from '../modules/parameters/suppliers/supplier-relevance.resolver'
 
 class Resolver {
 
@@ -61,6 +63,8 @@ class Resolver {
 
 			, supplierServiceType = new SupplierServiceTypeResolver()
 
+			, supplierSpecialtyType = new SupplierSpecialtyTypeResolver()
+
 		return mergeResolvers([
 			{
 				Query: {
@@ -68,14 +72,23 @@ class Resolver {
 					currentUser: user.current,
 
 					supplierServiceTypes: supplierServiceType.index,
-					supplierServiceType: supplierServiceType.findOne
+					supplierServiceType: supplierServiceType.findOne,
+
+					supplierSpecialtyTypes: supplierSpecialtyType.index,
+					supplierSpecialtyType: supplierSpecialtyType.findOne,
+
+					//supplierRelevanceTypes: supplierRelevanceType.index,
+					//supplierRelevanceType: supplierRelevanceType.findOne
+					
 				},
 				Mutation: {
 					signIn: user.signIn,
 					signOut: user.signOut,
 					createUser: user.create,
 
-					createSupplierServiceType: supplierServiceType.create
+					createSupplierServiceType: supplierServiceType.create,
+					createSupplierSpecialtyType: supplierSpecialtyType.create,
+					createSupplierRelevanceType: supplierServiceType.create					
 				},
 				Subscription: {
 					userAdded: {
