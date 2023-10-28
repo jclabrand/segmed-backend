@@ -18,7 +18,7 @@ import { IContextValue, SubscriptionEvents } from './types'
 
 import SupplierServiceTypeResolver from '../modules/parameters/suppliers/supplier-service-type.resolver'
 import SupplierSpecialtyTypeResolver from '../modules/parameters/suppliers/supplier-specialty-type.resolver'
-import SupplierRelevance from '../modules/parameters/suppliers/supplier-relevance.resolver'
+//import SupplierRelevance from '../modules/parameters/suppliers/supplier-relevance.resolver'
 
 class Resolver {
 
@@ -87,6 +87,8 @@ class Resolver {
 					createUser: user.create,
 
 					createSupplierServiceType: supplierServiceType.create,
+					updateSupplierServiceType: supplierServiceType.update,
+
 					createSupplierSpecialtyType: supplierSpecialtyType.create,
 					createSupplierRelevanceType: supplierServiceType.create					
 				},
