@@ -1,0 +1,19 @@
+type SupplierRelevanceType {
+	id:			String!
+	address:	String!
+	phone:		String
+}
+
+input ISupplierRelevanceTypeArgs {
+	name: String!
+}
+
+
+type Query {
+	supplierRelevanceTypes: [SupplierRelevanceType!]! @authorized
+	supplierRelevanceType(id: String!): SupplierRelevanceType! @authorized
+}
+
+type Mutation {
+	createSupplierRelevanceType(data: ISupplierRelevanceTypeArgs!): SupplierRelevanceType!
+}
