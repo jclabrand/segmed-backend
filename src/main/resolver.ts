@@ -9,17 +9,18 @@ import { makeExecutableSchema } from '@graphql-tools/schema'
 import { mergeTypeDefs, mergeResolvers } from '@graphql-tools/merge'
 import { loadFilesSync } from '@graphql-tools/load-files'
 import { IResolvers, mapSchema, MapperKind, getDirective } from '@graphql-tools/utils'
-import { GraphQLSchema, DocumentNode } from 'graphql'
+import { GraphQLSchema, DocumentNode, GraphQLScalarType } from 'graphql'
 import { PubSub } from 'graphql-subscriptions'
+
+import { SubscriptionEvents } from '../support/constants/subscription-event.constant'
 
 import AuthResolver from '../modules/account/auth/auth-resolver'
 import UserResolver from '../modules/account/user/user-resolver'
-import { IContextValue, SubscriptionEvents } from './types'
+import { IContextValue } from './types'
 
-import SupplierServiceTypeResolver from '../modules/parameters/suppliers/supplier-service-type.resolver'
-import SupplierSpecialtyTypeResolver from '../modules/parameters/suppliers/supplier-specialty-type.resolver'
-import SupplierRelevanceResolver from '../modules/parameters/suppliers/supplier-relevance.resolver'
-import SupplierResolver from '../modules/parameters/suppliers/suppliers-resolver'
+// import SupplierServiceTypeResolver from '../modules/parameters/suppliers/supplier-service-type.resolver'
+import { SupplierSpecialtyTypeResolver } from '../modules/catalog/supplier-specialty-type/supplier-specialty-type.resolver'
+//import SupplierRelevance from '../modules/parameters/suppliers/supplier-relevance.resolver'
 
 import MedicalAssistanceResolver from '../modules/services/medical_assistance/medical_assistance.resolver'
 import BeneficiariesResolver from '../modules/parameters/beneficiaries/beneficiaries-resolver'
@@ -64,13 +65,13 @@ class Resolver {
 		const pubsub = this.pubsub
 			, user = new UserResolver()
 
-			, supplierServiceType = new SupplierServiceTypeResolver()
+			// , supplierServiceType = new SupplierServiceTypeResolver()
 
 			, supplierSpecialtyType = new SupplierSpecialtyTypeResolver()
 //construye la instancia de la clase importada
-			, supplierRelevance = new SupplierRelevanceResolver()
+			//, supplierRelevance = new SupplierRelevanceResolver()
 
-			, supplierType = new SupplierResolver()
+			//, supplierType = new SupplierResolver()
 
 			, medicalAssistance = new MedicalAssistanceResolver()
 
@@ -78,21 +79,27 @@ class Resolver {
 
 		return mergeResolvers([
 			{
+				DateTime: new GraphQLScalarType({
+					name: 'DateTime',
+					description: 'Date custom scalar type',
+					parseValue: (value: number) => new Date(value),
+					serialize: (value: Date) => value.getTime()
+				}),
 				Query: {
 					users: user.index,
 					currentUser: user.current,
 
-					supplierServiceTypes: supplierServiceType.index,
-					supplierServiceType: supplierServiceType.findOne,
+					// supplierServiceTypes: supplierServiceType.index,
+					// supplierServiceType: supplierServiceType.findOne,
 
-					supplierSpecialtyTypes: supplierSpecialtyType.index,
+					supplierSpecialtyTypes: supplierSpecialtyType.findAll,
 					supplierSpecialtyType: supplierSpecialtyType.findOne,
 
-					supplierRelevances: supplierRelevance.index,
-					supplierRelevance: supplierRelevance.findOne,
+					//supplierRelevances: supplierRelevance.index,
+					//supplierRelevance: supplierRelevance.findOne,
 
-					supplierTypes: supplierType.index,
-					supplierType: supplierType.findOne,
+					//supplierTypes: supplierType.index,
+					//supplierType: supplierType.findOne,
 
 					consultaMedicas: medicalAssistance.index,
 					consultaMedica: medicalAssistance.findOne,
@@ -106,26 +113,27 @@ class Resolver {
 					signOut: user.signOut,
 					createUser: user.create,
 
-					createSupplierServiceType: supplierServiceType.create,
-					updateSupplierServiceType: supplierServiceType.update,
-					deleteSupplierServiceType: supplierServiceType.delete,
-					
+					// createSupplierServiceType: supplierServiceType.create,
+					// updateSupplierServiceType: supplierServiceType.update,
+
 					createSupplierSpecialtyType: supplierSpecialtyType.create,
 					updateSupplierSpecialtyType: supplierSpecialtyType.update,
-					deleteSupplierSpecialtyType: supplierSpecialtyType.delete,
-					
-					createSupplierRelevance: supplierRelevance.create,
-					
-					createSupplierType: supplierType.create,
-					updateSupplierType: supplierType.update,
-					deleteSupplierType: supplierType.delete,
-
-					createconsultaMedica: medicalAssistance.create,
-					updateconsultaMedica: medicalAssistance.delete
+					deleteSupplierSpecialtyType: supplierSpecialtyType.delete
+					// createSupplierRelevanceType: supplierServiceType.create					
 				},
 				Subscription: {
-					userAdded: {
-						subscribe: () => pubsub.asyncIterator(SubscriptionEvents.USER_ADDED)
+					userCreated: {
+						subscribe: () => pubsub.asyncIterator(SubscriptionEvents.USER_CREATED)
+					},
+
+					supplierSpecialtyTypeCreated: {
+						subscribe: () => pubsub.asyncIterator(SubscriptionEvents.SUPPLIER_SPECIALTY_TYPE_CREATED)
+					},
+					supplierSpecialtyTypeUpdated: {
+						subscribe: () => pubsub.asyncIterator(SubscriptionEvents.SUPPLIER_SPECIALTY_TYPE_UPDATED)
+					},
+					supplierSpecialtyTypeDeleted: {
+						subscribe: () => pubsub.asyncIterator(SubscriptionEvents.SUPPLIER_SPECIALTY_TYPE_DELETED)
 					}
 				}
 			}

@@ -6,7 +6,8 @@
 
 import { User } from "@prisma/client"
 
-import { IContextValue, IAuthPayload, SubscriptionEvents } from '../../../main/types'
+import { IContextValue, IAuthPayload } from '../../../main/types'
+import { SubscriptionEvents } from "../../../support/constants/subscription-event.constant"
 import Auth from '../../../utils/auth'
 
 
@@ -88,7 +89,7 @@ class UserResolver {
 			}
 		})
 
-		context.pubsub.publish(SubscriptionEvents.USER_ADDED, { userAdded: usr })
+		context.pubsub.publish(SubscriptionEvents.USER_CREATED, { userCreated: usr })
 		return usr
 	}
 

@@ -1,0 +1,35 @@
+
+type SupplierSpecialtyType {
+	id:		Int!
+	name:	String!
+
+	creatorUserName:	String!
+	creationDate:		DateTime!
+}
+
+
+input ICreateSupplierSpecialtyType {
+	name: String!
+}
+
+input IUpdateSupplierSpecialtyType {
+	name: String
+}
+
+
+type Query {
+	supplierSpecialtyTypes: [SupplierSpecialtyType!]! @authorized
+	supplierSpecialtyType(id: Int!): SupplierSpecialtyType! @authorized
+}
+
+type Mutation {
+	createSupplierSpecialtyType(data: ICreateSupplierSpecialtyType!): SupplierSpecialtyType! @authorized
+	updateSupplierSpecialtyType(id: Int!, data: IUpdateSupplierSpecialtyType!): SupplierSpecialtyType! @authorized
+	deleteSupplierSpecialtyType(id: Int!): SupplierSpecialtyType! @authorized
+}
+
+type Subscription {
+	supplierSpecialtyTypeCreated: SupplierSpecialtyType!
+	supplierSpecialtyTypeUpdated: SupplierSpecialtyType!
+	supplierSpecialtyTypeDeleted: SupplierSpecialtyType!
+}

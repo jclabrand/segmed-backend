@@ -5,18 +5,15 @@
 	"main": "index.js",
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1",
-		
-		"dev:x": "mkdir -p dist/api && rsync -am --include='*.gql' --include='*/' --exclude='*' src/modules dist/api && prisma-import -s src/**/*.prisma -o dist/schema.prisma && prisma generate --schema=./dist/schema.prisma && tsc -w",
-		"dev:w": "xcopy src\\modules\\*.gql dist\\api\\ /S /-y && prisma-import -s src/**/*.prisma -o dist/schema.prisma && prisma generate --schema=./dist/schema.prisma && tsc -w",
-		
+		"dev:x": "mkdir -p dist/api && rsync -am --include='*.gql' --include='*/' --exclude='*' src dist/api && prisma-import -s src/**/*.prisma -o dist/schema.prisma && prisma generate --schema=./dist/schema.prisma && tsc -w",
+		"dev:w": "xcopy src\\*.gql dist\\api\\ /S /-y && prisma-import -s src/**/*.prisma -o dist/schema.prisma && prisma generate --schema=./dist/schema.prisma && tsc -w",
 		"start:dev": "nodemon -w dist -e js,json,gql,prisma dist/index.js",
-
-		"gql:x": "kdir -p dist/api && rsync -am --include='*.gql' --include='*/' --exclude='*' src/modules dist/api",
-		"gql:w": "xcopy src\\modules\\*.gql dist\\api\\ /S /-y",
-
+		"gql:x": "kdir -p dist/api && rsync -am --include='*.gql' --include='*/' --exclude='*' src dist/api",
+		"gql:w": "xcopy src\\*.gql dist\\api\\ /S /-y",
 		"db:dev": "prisma-import -s src/**/*.prisma -o dist/schema.prisma && prisma generate --schema=./dist/schema.prisma && prisma migrate dev --schema=./dist/schema.prisma",
 		"db:schema": "prisma-import -s src/**/*.prisma -o dist/schema.prisma && prisma generate --schema=./dist/schema.prisma",
-		"db:migrate": "prisma migrate dev --schema=./dist/schema.prisma"
+		"db:migrate": "prisma migrate dev --schema=./dist/schema.prisma",
+		"seed:account": "npx ts-node src/support/seeders/account.seeder.ts"
 	},
 	"keywords": [],
 	"author": "Juan Carlos Labrandero",
@@ -31,6 +28,7 @@
 		"bcrypt": "^5.1.1",
 		"body-parser": "^1.20.2",
 		"cors": "^2.8.5",
+		"date-fns": "^2.30.0",
 		"express": "^4.18.2",
 		"express4": "link:@apollo/server/express4",
 		"graphql": "^16.8.0",
@@ -44,6 +42,7 @@
 		"nodemon": "^3.0.1",
 		"prisma": "^5.2.0",
 		"prisma-import": "^1.0.4",
+		"ts-node": "^10.9.1",
 		"typescript": "^5.2.2"
 	}
 }

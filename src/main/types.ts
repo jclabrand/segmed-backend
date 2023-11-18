@@ -20,8 +20,4 @@ interface IAuthPayload {
 	displayName:	string
 }
 
-enum SubscriptionEvents {
-	USER_ADDED = 'PSE_UA'
-}
-
-export { IContextValue, IAuthPayload, SubscriptionEvents }
+export { IContextValue, IAuthPayload }
