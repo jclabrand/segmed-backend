@@ -88,8 +88,12 @@ class Resolver {
 
 					createSupplierServiceType: supplierServiceType.create,
 					updateSupplierServiceType: supplierServiceType.update,
-
+					deleteSupplierServiceType: supplierServiceType.delete,
+					
 					createSupplierSpecialtyType: supplierSpecialtyType.create,
+					updateSupplierSpecialtyType: supplierSpecialtyType.update,
+					deleteSupplierSpecialtyType: supplierSpecialtyType.delete,
+					
 					createSupplierRelevanceType: supplierServiceType.create					
 				},
 				Subscription: {

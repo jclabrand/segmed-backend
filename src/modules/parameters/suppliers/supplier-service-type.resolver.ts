@@ -23,10 +23,16 @@ class SupplierServiceTypeResolver {
 	}
 
 	async update(source, { id, data }: { id: string, data: { name: string } }, context: IContextValue, info) {
-		console.log(data)
+		// nostrar los datos que llegan console.log(data)
 		return await context.db.supplierServiceType.update({
 			where: { id },
 			data
+		})
+	}
+
+	async delete(source, { id }: { id: string }, context: IContextValue, info) {
+		return await context.db.supplierServiceType.delete({
+			where: { id },
 		})
 	}
 }

@@ -26,6 +26,19 @@ class SupplierSpecialtyTypeResolver{
 			data
 		})
 	}
-	
+
+	async update(source, { id, data }: { id: string, data: { name: string } }, context: IContextValue, info) {
+		// nostrar los datos que llegan console.log(data)
+		return await context.db.supplierSpecialtyType.update({
+			where: { id },
+			data
+		})
+	}
+
+	async delete(source, { id }: { id: string }, context: IContextValue, info) {
+		return await context.db.supplierSpecialtyType.delete({
+			where: { id },
+		})
+	}
 }
 export default SupplierSpecialtyTypeResolver
