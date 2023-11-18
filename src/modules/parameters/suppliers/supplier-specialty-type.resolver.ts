@@ -12,7 +12,13 @@ class SupplierSpecialtyTypeResolver{
 //	}
 	
 	async index(source, args, context: IContextValue, info): Promise<Array<SupplierSpecialtyType>> {
-	return await context.db.supplierSpecialtyType.findMany()
+	return await context.db.supplierSpecialtyType.findMany(
+				{
+			where: {
+				OR: [{status:1},{status:0}]
+			}
+		}
+	)
 	}
 
 	async findOne(source, { id }: { id: string }, context: IContextValue, info): Promise<SupplierSpecialtyType> {
@@ -29,6 +35,7 @@ class SupplierSpecialtyTypeResolver{
 
 	async update(source, { id, data }: { id: string, data: { name: string } }, context: IContextValue, info) {
 		// nostrar los datos que llegan console.log(data)
+		console.log(data)
 		return await context.db.supplierSpecialtyType.update({
 			where: { id },
 			data
@@ -36,8 +43,15 @@ class SupplierSpecialtyTypeResolver{
 	}
 
 	async delete(source, { id }: { id: string }, context: IContextValue, info) {
-		return await context.db.supplierSpecialtyType.delete({
-			where: { id },
+		return await context.db.supplierSpecialtyType.update({
+			where: {id},
+			data: {
+				status: -1
+			}
+
+			//1 activo
+			//0 inactivo
+			//-1 eliminado
 		})
 	}
 }

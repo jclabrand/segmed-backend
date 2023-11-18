@@ -1,21 +1,25 @@
-
+import { ConsultaExterna } from "../services/medical_assistance/medical_assistance"
 model SupplierRelevance {
 	id		String	@id @default(cuid())
 	address	String	@unique		//	
 	phone	String
 
+	supplierId	String
+	
+	serviceType	Supplier	@relation(fields: [supplierId], references: [id])
 }
 
 model SupplierServiceType {
 	id		String	@id @default(cuid())
 	name	String	@unique		//	Medicamentos,		Medicamentos y Odontologia,			Medicina General,   
-
+	status	Int		@default(1)
 	suppliers		Supplier[]
 }
 
 model SupplierSpecialtyType {
 	id		String	@id @default(cuid())
 	name	String	@unique
+	status	Int		@default(1)
 
 	supplierServices	SupplierService[]
 }
@@ -28,10 +32,12 @@ model Supplier {
 	description	String
 
 	serviceTypeId	String
+	status	Int		@default(1)
 
-	supplierServices	SupplierService[]
-
-	serviceType			SupplierServiceType	@relation(fields: [serviceTypeId], references: [id])
+	services	SupplierService[]
+	relevances	SupplierRelevance[]
+	serviceType	SupplierServiceType	@relation(fields: [serviceTypeId], references: [id])
+	consultas ConsultaExterna[]
 }
 
 model SupplierService {

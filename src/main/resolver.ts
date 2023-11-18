@@ -18,8 +18,11 @@ import { IContextValue, SubscriptionEvents } from './types'
 
 import SupplierServiceTypeResolver from '../modules/parameters/suppliers/supplier-service-type.resolver'
 import SupplierSpecialtyTypeResolver from '../modules/parameters/suppliers/supplier-specialty-type.resolver'
-//import SupplierRelevance from '../modules/parameters/suppliers/supplier-relevance.resolver'
+import SupplierRelevanceResolver from '../modules/parameters/suppliers/supplier-relevance.resolver'
+import SupplierResolver from '../modules/parameters/suppliers/suppliers-resolver'
 
+import MedicalAssistanceResolver from '../modules/services/medical_assistance/medical_assistance.resolver'
+import BeneficiariesResolver from '../modules/parameters/beneficiaries/beneficiaries-resolver'
 class Resolver {
 
 	schema:	GraphQLSchema
@@ -64,6 +67,14 @@ class Resolver {
 			, supplierServiceType = new SupplierServiceTypeResolver()
 
 			, supplierSpecialtyType = new SupplierSpecialtyTypeResolver()
+//construye la instancia de la clase importada
+			, supplierRelevance = new SupplierRelevanceResolver()
+
+			, supplierType = new SupplierResolver()
+
+			, medicalAssistance = new MedicalAssistanceResolver()
+
+			, beneficiaries = new BeneficiariesResolver()
 
 		return mergeResolvers([
 			{
@@ -77,9 +88,18 @@ class Resolver {
 					supplierSpecialtyTypes: supplierSpecialtyType.index,
 					supplierSpecialtyType: supplierSpecialtyType.findOne,
 
-					//supplierRelevanceTypes: supplierRelevanceType.index,
-					//supplierRelevanceType: supplierRelevanceType.findOne
-					
+					supplierRelevances: supplierRelevance.index,
+					supplierRelevance: supplierRelevance.findOne,
+
+					supplierTypes: supplierType.index,
+					supplierType: supplierType.findOne,
+
+					consultaMedicas: medicalAssistance.index,
+					consultaMedica: medicalAssistance.findOne,
+
+					consultaBeneficiarios: beneficiaries.index,
+					consultaBeneficiario: beneficiaries.findOne
+										
 				},
 				Mutation: {
 					signIn: user.signIn,
@@ -94,7 +114,14 @@ class Resolver {
 					updateSupplierSpecialtyType: supplierSpecialtyType.update,
 					deleteSupplierSpecialtyType: supplierSpecialtyType.delete,
 					
-					createSupplierRelevanceType: supplierServiceType.create					
+					createSupplierRelevance: supplierRelevance.create,
+					
+					createSupplierType: supplierType.create,
+					updateSupplierType: supplierType.update,
+					deleteSupplierType: supplierType.delete,
+
+					createconsultaMedica: medicalAssistance.create,
+					updateconsultaMedica: medicalAssistance.delete
 				},
 				Subscription: {
 					userAdded: {

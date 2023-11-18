@@ -18,5 +18,5 @@ type Query {
 type Mutation {
 	createSupplierSpecialtyType(data: ISupplierSpecialtyTypeArgs!): SupplierSpecialtyType!
 	updateSupplierSpecialtyType(id: String!, data: ISupplierSpecialtyTypeArgs!): SupplierSpecialtyType!
-	deleteSupplierSpecialtype(id: String!): SupplierSpecialtyType!
+	deleteSupplierSpecialtyType(id: String!): SupplierSpecialtyType!
 }

@@ -1,0 +1,24 @@
+type SupplierType {
+    id:		String!
+	code:	String!
+	nit:	String!
+	description:	String!
+}
+
+input ISupplierTypeArgs {
+	code:	String!
+	nit:	String!
+	description:	String!
+	serviceTypeId:	String!
+}
+
+type Query {
+	supplierTypes: [SupplierType!]! @authorized
+	supplierType(id: String!): SupplierType! @authorized
+}
+
+type Mutation {
+	createSupplierType(data: ISupplierTypeArgs!): SupplierType!
+	updateSupplierType(code: String!, data: ISupplierTypeArgs!): SupplierType!
+	deleteSupplierType(code: String!): SupplierType!
+}

@@ -7,7 +7,13 @@ import { IContextValue } from '../../../main/types'
 class SupplierServiceTypeResolver {
 
 	async index(source, args, context: IContextValue, info): Promise<Array<SupplierServiceType>> {
-		return await context.db.supplierServiceType.findMany()
+		return await context.db.supplierServiceType.findMany(
+			{
+				where: {
+					OR: [{status:1},{status:0}]
+				}
+			}
+		)
 	}
 
 	async findOne(source, { id }: { id: string }, context: IContextValue, info): Promise<SupplierServiceType> {
@@ -31,10 +37,20 @@ class SupplierServiceTypeResolver {
 	}
 
 	async delete(source, { id }: { id: string }, context: IContextValue, info) {
-		return await context.db.supplierServiceType.delete({
-			where: { id },
+		return await context.db.supplierServiceType.update({
+			where: {id},
+			data: {
+				status: -1
+			}
+
+			//1 activo
+			//0 inactivo
+			//-1 eliminado
 		})
 	}
+
+	
+  
 }
 
 
