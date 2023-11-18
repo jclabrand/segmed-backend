@@ -1,0 +1,21 @@
+
+import { SupplierServiceTypeSpecialtyType } from "../supplier-service-type/supplier-service-type.schema"
+import { Supplier } from "../../reference/supplier/supplier.schema"
+
+
+model SupplierSpecialtyType {
+	id		Int		@id @default(autoincrement())
+	name	String	@unique
+
+	status	Int		@default(1)
+
+	creatorUserName		String
+	creationDate		DateTime
+	lastUpdateUserName	String?
+	lastUpdateDate		DateTime?
+	deletionUserName	String?
+	deletionDate		DateTime?
+
+	supplierServiceTypeSpecialtyTypes	SupplierServiceTypeSpecialtyType[]
+	suppliers							Supplier[]
+}

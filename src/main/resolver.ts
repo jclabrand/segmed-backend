@@ -9,15 +9,17 @@ import { makeExecutableSchema } from '@graphql-tools/schema'
 import { mergeTypeDefs, mergeResolvers } from '@graphql-tools/merge'
 import { loadFilesSync } from '@graphql-tools/load-files'
 import { IResolvers, mapSchema, MapperKind, getDirective } from '@graphql-tools/utils'
-import { GraphQLSchema, DocumentNode } from 'graphql'
+import { GraphQLSchema, DocumentNode, GraphQLScalarType } from 'graphql'
 import { PubSub } from 'graphql-subscriptions'
+
+import { SubscriptionEvents } from '../support/constants/subscription-event.constant'
 
 import AuthResolver from '../modules/account/auth/auth-resolver'
 import UserResolver from '../modules/account/user/user-resolver'
-import { IContextValue, SubscriptionEvents } from './types'
+import { IContextValue } from './types'
 
-import SupplierServiceTypeResolver from '../modules/parameters/suppliers/supplier-service-type.resolver'
-import SupplierSpecialtyTypeResolver from '../modules/parameters/suppliers/supplier-specialty-type.resolver'
+// import SupplierServiceTypeResolver from '../modules/parameters/suppliers/supplier-service-type.resolver'
+import { SupplierSpecialtyTypeResolver } from '../modules/catalog/supplier-specialty-type/supplier-specialty-type.resolver'
 //import SupplierRelevance from '../modules/parameters/suppliers/supplier-relevance.resolver'
 
 class Resolver {
@@ -61,20 +63,26 @@ class Resolver {
 		const pubsub = this.pubsub
 			, user = new UserResolver()
 
-			, supplierServiceType = new SupplierServiceTypeResolver()
+			// , supplierServiceType = new SupplierServiceTypeResolver()
 
 			, supplierSpecialtyType = new SupplierSpecialtyTypeResolver()
 
 		return mergeResolvers([
 			{
+				DateTime: new GraphQLScalarType({
+					name: 'DateTime',
+					description: 'Date custom scalar type',
+					parseValue: (value: number) => new Date(value),
+					serialize: (value: Date) => value.getTime()
+				}),
 				Query: {
 					users: user.index,
 					currentUser: user.current,
 
-					supplierServiceTypes: supplierServiceType.index,
-					supplierServiceType: supplierServiceType.findOne,
+					// supplierServiceTypes: supplierServiceType.index,
+					// supplierServiceType: supplierServiceType.findOne,
 
-					supplierSpecialtyTypes: supplierSpecialtyType.index,
+					supplierSpecialtyTypes: supplierSpecialtyType.findAll,
 					supplierSpecialtyType: supplierSpecialtyType.findOne,
 
 					//supplierRelevanceTypes: supplierRelevanceType.index,
@@ -86,15 +94,27 @@ class Resolver {
 					signOut: user.signOut,
 					createUser: user.create,
 
-					createSupplierServiceType: supplierServiceType.create,
-					updateSupplierServiceType: supplierServiceType.update,
+					// createSupplierServiceType: supplierServiceType.create,
+					// updateSupplierServiceType: supplierServiceType.update,
 
 					createSupplierSpecialtyType: supplierSpecialtyType.create,
-					createSupplierRelevanceType: supplierServiceType.create					
+					updateSupplierSpecialtyType: supplierSpecialtyType.update,
+					deleteSupplierSpecialtyType: supplierSpecialtyType.delete
+					// createSupplierRelevanceType: supplierServiceType.create					
 				},
 				Subscription: {
-					userAdded: {
-						subscribe: () => pubsub.asyncIterator(SubscriptionEvents.USER_ADDED)
+					userCreated: {
+						subscribe: () => pubsub.asyncIterator(SubscriptionEvents.USER_CREATED)
+					},
+
+					supplierSpecialtyTypeCreated: {
+						subscribe: () => pubsub.asyncIterator(SubscriptionEvents.SUPPLIER_SPECIALTY_TYPE_CREATED)
+					},
+					supplierSpecialtyTypeUpdated: {
+						subscribe: () => pubsub.asyncIterator(SubscriptionEvents.SUPPLIER_SPECIALTY_TYPE_UPDATED)
+					},
+					supplierSpecialtyTypeDeleted: {
+						subscribe: () => pubsub.asyncIterator(SubscriptionEvents.SUPPLIER_SPECIALTY_TYPE_DELETED)
 					}
 				}
 			}

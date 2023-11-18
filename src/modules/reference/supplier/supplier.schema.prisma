@@ -1,0 +1,46 @@
+
+import { SupplierSpecialtyType } from "../../catalog/supplier-specialty-type/supplier-specialty-type.schema"
+import { SupplierServiceType } from "../../catalog/supplier-service-type/supplier-service-type.schema"
+
+
+model Supplier {
+	id			Int		@id @default(autoincrement())
+	code		String	@unique
+	nit			String
+	description	String
+
+	status				Int		@default(1)
+
+	creatorUserName		String
+	creationDate		DateTime
+	lastUpdateUserName	String?
+	lastUpdateDate		DateTime?
+	deletionUserName	String?
+	deletionDate		DateTime?
+
+	supplierServiceTypeId	Int
+
+	supplierServiceType				SupplierServiceType	@relation(fields: [supplierServiceTypeId], references: [id])
+	supplierSupplierSpecialtyTypes	SupplierSupplierSpecialtyType[]
+}
+
+model SupplierSupplierSpecialtyType {
+	id					Int		@default(autoincrement()) @unique
+
+	status				Int		@default(1)
+
+	creatorUserName		String
+	creationDate		DateTime
+	lastUpdateUserName	String?
+	lastUpdateDate		DateTime?
+	deletionUserName	String?
+	deletionDate		DateTime?
+
+	supplierId				Int
+	supplierSpecialtyTypeId	Int
+
+	supplier				Supplier				@relation(fields: [supplierId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+	supplierSpecialtyType	SupplierSpecialtyType	@relation(fields: [supplierSpecialtyTypeId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+	@@id([ supplierId, supplierSpecialtyTypeId ])
+}
