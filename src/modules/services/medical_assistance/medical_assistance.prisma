@@ -19,7 +19,7 @@ model ConsultaExterna{
     service String
     specialty String
     date_sol DateTime
-    servicioMedicoId  String // Este es el campo que almacena el identificador del servicio médico
+    servicioMedicoId  Int // Este es el campo que almacena el identificador del servicio médico
     servicioMedico    Supplier @relation(fields: [servicioMedicoId], references: [id]) // Esta es la relación muchos a uno con el servicio médico que se utiliza en la consulta externa
     
     consultas ConsultaMedica[]

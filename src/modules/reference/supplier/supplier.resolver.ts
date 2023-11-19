@@ -6,7 +6,7 @@ interface ISupplierArgs {
 	code: string,
 	nit: string,
 	description: string,
-	serviceTypeId: string
+	serviceTypeId: number
 }
 class SupplierResolver{
 	
@@ -18,36 +18,17 @@ class SupplierResolver{
 	})
 	}
 
-	async findOne(source, { id }: { id: string }, context: IContextValue, info): Promise<Supplier> {
+	async findOne(source, { id }: { id: number }, context: IContextValue, info): Promise<Supplier> {
 		return await context.db.supplier.findUnique({
 			where: { id }
 		})
 	}
 	async create(source, { data }: { data: ISupplierArgs }, context: IContextValue, info) {
-		console.log(data)
-		return await context.db.supplier.create({
-			data: {
-				code: data.code,
-				nit: data.nit,
-				description: data.description,
-				serviceTypeId: data.serviceTypeId
 
-			}
-		})
 	}
 
 	async update(source, { code, data }: { code: string, data: { nit: string, description: string, serviceTypeId: string } }, context: IContextValue, info) {
-		// nostrar los datos que llegan console.log(data)
-		console.log(data)
-		return await context.db.supplier.update({
-			where: { code },
-			data: {
-				nit: data.nit,
-				description: data.description,
-				serviceTypeId: data.serviceTypeId
 
-			}
-		})
 	}
 
 	async delete(source, { code }: { code: string }, context: IContextValue, info) {
