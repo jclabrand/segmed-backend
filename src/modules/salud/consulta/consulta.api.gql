@@ -1,0 +1,17 @@
+
+type Consulta {
+	id:				Int!
+	fecha:			DateTime!
+	estadoConsulta:	String!
+
+	detalle:		ConsultaDetalle
+	signosVitales:	ConsultaSignosVitales
+	beneficiario:	Beneficiario!
+
+	interconsultas:	[Interconsulta!]!
+}
+
+type Query {
+	consultas: [Consulta!]! @authorized
+	consulta(id: Int!): Consulta! @authorized
+}

@@ -1,0 +1,20 @@
+
+import { ConsultaDetalle } from "../consulta-detalle/consulta-detalle.model"
+import { ConsultaSignosVitales } from "../consulta-signos-vitales/consulta-signos-vitales.model"
+import { Interconsulta } from "../interconsulta/interconsulta.model"
+import { Beneficiario } from "../../identidad/beneficiario/beneficiario.model"
+
+model Consulta {
+	id				Int		@id @default(autoincrement())
+	fecha			DateTime
+	estado_consulta	String
+
+	estado			Int		@default(1)
+
+	idBeneficiario	Int
+
+	detalle			ConsultaDetalle?
+	signosVitales	ConsultaSignosVitales?
+	beneficiario	Beneficiario	@relation(fields: [idBeneficiario], references: [id])
+	interconsultas	Interconsulta[]
+}

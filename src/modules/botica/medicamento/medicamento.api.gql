@@ -1,0 +1,13 @@
+
+type Medicamento {
+	id:				Int!
+	codigo:			String!
+	descripcion:	String!
+	concentracion:	String!
+	liname:			Boolean!
+}
+
+type Query {
+	medicamentos: [Medicamento!]! @authorized
+	medicamento(id: Int!): Medicamento! @authorized
+}

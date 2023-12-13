@@ -1,0 +1,23 @@
+
+import { Persona } from "../persona/persona.model"
+import { Consulta } from "../../salud/consulta/consulta.model"
+
+model Beneficiario {
+	id			Int		@id @default(autoincrement())
+	codigo		Int
+	ficha		Int
+	fechaAlta	DateTime
+	fechaBaja	DateTime?
+	sindical	Boolean
+	telefono	String
+
+	estado					Int			@default(1)
+	
+	idTitularBeneficiario	Int?
+	idPersona				Int			@unique
+
+	titularBeneficiario	Beneficiario?	@relation(name: "TitularBeneficiario", fields: [idTitularBeneficiario], references: [id], onDelete: NoAction, onUpdate: NoAction)
+	dependientes		Beneficiario[]	@relation(name: "TitularBeneficiario")
+	persona				Persona			@relation(fields: [idPersona], references: [id])
+	consultas			Consulta[]
+}

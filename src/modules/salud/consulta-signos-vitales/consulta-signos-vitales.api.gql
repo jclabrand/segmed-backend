@@ -1,0 +1,10 @@
+
+type ConsultaSignosVitales {
+	id:						Int!
+	temperaturaCorporal:	String
+	frecuenciaCardiaca:		String
+	frecuenciaRespiratoria:	String
+	presionArterial:		String
+	talla:					String
+	peso:					String
+}

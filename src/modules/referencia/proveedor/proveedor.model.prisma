@@ -1,0 +1,61 @@
+
+import { ServicioMedico } from "../../catalogo/servicio-medico/servicio-medico.model"
+import { EspecialidadMedica } from "../../catalogo/especialidad-medica/especialidad-medica.model"
+import { UnidadMedica } from "../../salud/unidad-medica/unidad-medica.model"
+import { Interconsulta } from "../../salud/interconsulta/interconsulta.model"
+import { Profecional } from "../profecional/profecional.model"
+import { Empresa } from "../empresa/empresa.model"
+
+model Proveedor {
+	id				Int		@id @default(autoincrement())
+	codigoVendor	String	@unique
+	
+	descripcion	String
+	razonSocial	String
+	nit			String
+
+	idUnidadMedica	Int
+
+	estado			Int		@default(1)
+
+	// creatorUserName		String
+	// creationDate		DateTime
+	// lastUpdateUserName	String?
+	// lastUpdateDate		DateTime?
+	// deletionUserName	String?
+	// deletionDate		DateTime?
+
+	unidadMedica	UnidadMedica	@relation(fields: [idUnidadMedica], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+	serviciosMedicosProveedores			ServicioMedicoProveedor[]
+	especialidadesMedicasProveedores	EspecialidadMedicaProveedor[]
+	
+	profecional		Profecional?
+	empresa			Empresa?
+
+	interconsultas	Interconsulta[]
+}
+
+model ServicioMedicoProveedor {
+	id					Int		@default(autoincrement()) @unique
+
+	idProveedor			Int
+	idServicioMedico	Int
+
+	proveedor		Proveedor		@relation(fields: [idProveedor], references: [id], onDelete: NoAction, onUpdate: NoAction)
+	servicioMedico	ServicioMedico	@relation(fields: [idServicioMedico], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+	@@id([ idProveedor, idServicioMedico ])
+}
+
+model EspecialidadMedicaProveedor {
+	id						Int		@default(autoincrement()) @unique
+
+	idProveedor				Int
+	idEspecialidadMedica	Int
+
+	proveedor			Proveedor			@relation(fields: [idProveedor], references: [id], onDelete: NoAction, onUpdate: NoAction)
+	especialidadMedica	EspecialidadMedica	@relation(fields: [idEspecialidadMedica], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+	@@id([ idProveedor, idEspecialidadMedica ])
+}

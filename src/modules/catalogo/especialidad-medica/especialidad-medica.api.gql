@@ -1,0 +1,11 @@
+
+type EspecialidadMedica {
+	id:				Int!
+	nombre:			String!
+	descripcion:	String!
+}
+
+type Query {
+	especialidadesMedicas: [EspecialidadMedica!]! @authorized
+	especialidadMedica(id: Int!): EspecialidadMedica! @authorized
+}

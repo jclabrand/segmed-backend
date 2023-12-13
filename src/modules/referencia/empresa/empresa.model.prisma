@@ -1,0 +1,12 @@
+
+import { Proveedor } from "../proveedor/proveedor.model"
+
+model Empresa {
+	id		Int		@id @default(autoincrement())
+	nombre	String
+
+	estado	Int		@default(1)
+
+	idProveedor	Int			@unique
+	proveedor	Proveedor	@relation(fields: [idProveedor], references: [id])
+}

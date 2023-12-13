@@ -1,0 +1,30 @@
+
+import { EspecialidadMedica } from "../especialidad-medica/especialidad-medica.model"
+import { ServicioMedicoProveedor } from "../../referencia/proveedor/proveedor.model"
+import { ServicioMedicoInterconsulta } from "../../salud/interconsulta/interconsulta.model"
+
+model ServicioMedico {
+	id			Int		@id @default(autoincrement())
+	nombre		String	@unique
+	descripcion	String
+
+	estado		Int		@default(1)
+
+	especialidadesMedicasServiciosMedicos	EspecialidadMedicaServicioMedico[]
+	serviciosMedicosProveedores				ServicioMedicoProveedor[]
+	serviciosMedicosInterconsultas			ServicioMedicoInterconsulta[]
+}
+
+model EspecialidadMedicaServicioMedico {
+	id						Int		@default(autoincrement()) @unique
+
+	idServicioMedico		Int
+	idEspecialidadMedica	Int
+
+	estado					Int		@default(1)
+
+	servicioMedico			ServicioMedico		@relation(fields: [idServicioMedico], references: [id])
+	especialidadMedica		EspecialidadMedica	@relation(fields: [idEspecialidadMedica], references: [id])
+
+	@@id([ idServicioMedico, idEspecialidadMedica ])
+}

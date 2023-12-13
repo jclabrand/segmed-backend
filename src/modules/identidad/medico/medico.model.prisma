@@ -1,0 +1,12 @@
+
+import { Persona } from "../persona/persona.model"
+
+model Medico {
+	id			Int		@id @default(autoincrement())
+
+	estado		Int		@default(1)
+	
+	idPersona	Int		@unique
+
+	persona		Persona	@relation(fields: [idPersona], references: [id])
+}

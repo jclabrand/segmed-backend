@@ -1,0 +1,6 @@
+
+type UnidadMedica {
+	id:				Int!
+	nombre:			String!
+	descripcion:	String!
+}

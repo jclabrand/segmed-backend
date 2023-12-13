@@ -1,0 +1,18 @@
+
+import { Consulta } from "../consulta/consulta.model"
+
+model ConsultaSignosVitales {
+	id						Int	@id @default(autoincrement())
+	temperaturaCorporal:	String?
+	frecuenciaCardiaca:		String?
+	frecuenciaRespiratoria:	String?
+	presionArterial:		String?
+	talla:					String?
+	peso:					String?
+
+	estado		Int		@default(1)
+
+	idConsulta	Int	@unique
+
+	consulta	Consulta	@relation(fields: [idConsulta], references: [id])
+}

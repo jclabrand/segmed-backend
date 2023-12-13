@@ -1,6 +1,6 @@
 
-import { now } from '.';
-import { Status } from '../constants/status.constant'
+import { now } from '.'
+import { Estado } from '../constants/estado.constant'
 
 export function auditoryParamsForCreate(user) {
 	const utc = now().utc
@@ -24,7 +24,7 @@ export function auditoryParamsForDelete(user) {
 	const utc = now().utc
 
 	return {
-		status: Status.Delete,
+		status: Estado.Eliminado,
 		deletionUserName: user.userName,
 		deletionDate: utc
 	}

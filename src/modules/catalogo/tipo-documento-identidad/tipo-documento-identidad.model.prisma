@@ -1,0 +1,12 @@
+
+import { Persona } from "../../identidad/persona/persona.model"
+
+model TipoDocumentoIdentidad {
+	id			Int		@id @default(autoincrement())
+	nombre		String	@unique
+	descripcion	String
+
+	estado		Int			@default(1)
+
+	personas	Persona[]
+}

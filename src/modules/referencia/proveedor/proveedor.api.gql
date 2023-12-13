@@ -1,0 +1,42 @@
+
+type Proveedor {
+	id:				Int!
+	codigoVendor:	String!
+	descripcion:	String!
+	razonSocial:	String!
+	nit:			String!
+
+	unidadMedica:	UnidadMedica!
+
+	servicios:		[ServicioMedico!]!
+	especialidades:	[EspecialidadMedica!]!
+}
+
+input IProveedorCreateArgs {
+	codigoVendor:	String!
+	descripcion:	String!
+	razonSocial:	String!
+	nit:			String!
+
+	idUnidadMedica:	Int!
+}
+
+input IProveedorUpdateArgs {
+	codigoVendor:	String
+	descripcion:	String
+	razonSocial:	String
+	nit:			String
+
+	idUnidadMedica:	Int
+}
+
+type Query {
+	proveedores: [Proveedor!]! @authorized
+	proveedor(id: Int!): Proveedor! @authorized
+}
+
+type Mutation {
+	createProveedor(data: IProveedorCreateArgs!): Proveedor! @authorized
+	updateProveedor(id: Int!, data: IProveedorUpdateArgs!): Proveedor! @authorized
+	deleteProveedor(id: Int!): Proveedor! @authorized
+}

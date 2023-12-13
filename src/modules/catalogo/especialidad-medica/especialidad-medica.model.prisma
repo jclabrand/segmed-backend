@@ -1,0 +1,16 @@
+
+import { EspecialidadMedicaServicioMedico } from "../servicio-medico/servicio-medico.model"
+import { EspecialidadMedicaProveedor } from "../../referencia/proveedor/proveedor.model"
+import { EspecialidadMedicaInterconsulta } from "../../salud/interconsulta/interconsulta.model"
+
+model EspecialidadMedica {
+	id			Int		@id @default(autoincrement())
+	nombre		String	@unique
+	descripcion	String
+
+	estado		Int		@default(1)
+
+	especialidadesMedicasServiciosMedicos	EspecialidadMedicaServicioMedico[]
+	especialidadesMedicasProveedores		EspecialidadMedicaProveedor[]
+	especialidadesMedicasInterconsultas		EspecialidadMedicaInterconsulta[]
+}

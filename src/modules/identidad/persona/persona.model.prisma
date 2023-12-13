@@ -1,0 +1,25 @@
+
+import { TipoDocumentoIdentidad } from "../../catalogo/tipo-documento-identidad/tipo-documento-identidad.model"
+import { Beneficiario } from "../beneficiario/beneficiario.model"
+import { Medico } from "../salud/medico.model"
+import { Profecional } from "../../referencia/profecional/profecional.model"
+
+model Persona {
+	id		Int		@id @default(autoincrement())
+	nombre	String
+	paterno	String
+	materno	String
+	sexo	String
+	fechaNacimiento		DateTime
+	documentoIdentidad	String
+
+	estado		Int		@default(1)
+
+	idTipoDcumentoIdentidad	Int
+
+	tipoDocumentoIdentidad	TipoDocumentoIdentidad @relation(fields: [idTipoDcumentoIdentidad], references: [id])
+
+	beneficiario	Beneficiario?
+	medico			Medico?
+	profecional		Profecional?
+}

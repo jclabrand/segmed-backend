@@ -1,0 +1,13 @@
+
+type Persona {
+	id:			Int!
+	nombre:		String!
+	paterno:	String!
+	materno:	String!
+	sexo:		String!
+
+	fechaNacimiento:	DateTime!
+	documentoIdentidad:	String!
+
+	tipoDocumentoIdentidad:	TipoDocumentoIdentidad!
+}

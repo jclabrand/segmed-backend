@@ -1,0 +1,6 @@
+
+type ConsultaDetalle {
+	id:				Int!
+	motivo:			String!
+	diagnostico:	String!
+}

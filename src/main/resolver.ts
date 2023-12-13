@@ -1,8 +1,4 @@
 
-/*	Copyright (C) 2023, All Rights Reserved
- *	Written by Juan Carlos Labrandero <jcharly@labrandero.com>
- */
-
 import path from 'path'
 
 import { makeExecutableSchema } from '@graphql-tools/schema'
@@ -18,12 +14,13 @@ import AuthResolver from '../modules/account/auth/auth-resolver'
 import UserResolver from '../modules/account/user/user-resolver'
 import { IContextValue } from './types'
 
-// import SupplierServiceTypeResolver from '../modules/parameters/suppliers/supplier-service-type.resolver'
-import { SupplierSpecialtyTypeResolver } from '../modules/catalog/supplier-specialty-type/supplier-specialty-type.resolver'
-//import SupplierRelevance from '../modules/parameters/suppliers/supplier-relevance.resolver'
+import ServicioMedicoResolver from '../modules/catalogo/servicio-medico/servicio-medico.resolver'
+import EspecialidadMedicaResolver from '../modules/catalogo/especialidad-medica/especialidad-medica.resolver'
+import BeneficiarioResolver from '../modules/identidad/beneficiario/beneficiario.resolver'
+import ProveedorResolver from '../modules/referencia/proveedor/proveedor.resolver'
+import MedicamentoResolver from '../modules/botica/medicamento/medicamento.resolver'
+import ConsultaResolver from '../modules/salud/consulta/consulta.resolver'
 
-import MedicalAssistanceResolver from '../modules/services/medical_assistance/medical_assistance.resolver'
-import BeneficiariesResolver from '../modules/parameters/beneficiaries/beneficiaries-resolver'
 class Resolver {
 
 	schema:	GraphQLSchema
@@ -65,17 +62,12 @@ class Resolver {
 		const pubsub = this.pubsub
 			, user = new UserResolver()
 
-			// , supplierServiceType = new SupplierServiceTypeResolver()
-
-			, supplierSpecialtyType = new SupplierSpecialtyTypeResolver()
-//construye la instancia de la clase importada
-			//, supplierRelevance = new SupplierRelevanceResolver()
-
-			//, supplierType = new SupplierResolver()
-
-			, medicalAssistance = new MedicalAssistanceResolver()
-
-			, beneficiaries = new BeneficiariesResolver()
+			, servicioMedico = new ServicioMedicoResolver()
+			, especialidadMedica = new EspecialidadMedicaResolver()
+			, beneficiario = new BeneficiarioResolver()
+			, proveedor = new ProveedorResolver()
+			, medicamento = new MedicamentoResolver()
+			, consulta = new ConsultaResolver()
 
 		return mergeResolvers([
 			{
@@ -89,37 +81,28 @@ class Resolver {
 					users: user.index,
 					currentUser: user.current,
 
-					// supplierServiceTypes: supplierServiceType.index,
-					// supplierServiceType: supplierServiceType.findOne,
+					serviciosMedicos: servicioMedico.index,
+					servicioMedico: servicioMedico.findOne,
 
-					supplierSpecialtyTypes: supplierSpecialtyType.findAll,
-					supplierSpecialtyType: supplierSpecialtyType.findOne,
+					especialidadesMedicas: especialidadMedica.index,
+					especialidadMedica: especialidadMedica.findOne,
 
-					//supplierRelevances: supplierRelevance.index,
-					//supplierRelevance: supplierRelevance.findOne,
+					beneficiarios: beneficiario.index,
+					beneficiario: beneficiario.findOne,
 
-					//supplierTypes: supplierType.index,
-					//supplierType: supplierType.findOne,
+					proveedores: proveedor.index,
+					proveedor: proveedor.findOne,
 
-					consultaMedicas: medicalAssistance.index,
-					consultaMedica: medicalAssistance.findOne,
+					medicamentos: medicamento.index,
+					medicamento: medicamento.findOne,
 
-					consultaBeneficiarios: beneficiaries.index,
-					consultaBeneficiario: beneficiaries.findOne
-										
+					consultas: consulta.index,
+					consulta: consulta.findOne,
 				},
 				Mutation: {
 					signIn: user.signIn,
 					signOut: user.signOut,
-					createUser: user.create,
-
-					// createSupplierServiceType: supplierServiceType.create,
-					// updateSupplierServiceType: supplierServiceType.update,
-
-					createSupplierSpecialtyType: supplierSpecialtyType.create,
-					updateSupplierSpecialtyType: supplierSpecialtyType.update,
-					deleteSupplierSpecialtyType: supplierSpecialtyType.delete
-					// createSupplierRelevanceType: supplierServiceType.create					
+					createUser: user.create,				
 				},
 				Subscription: {
 					userCreated: {

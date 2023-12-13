@@ -1,0 +1,15 @@
+
+import { Persona } from "../../identidad/persona/persona.model"
+import { Proveedor } from "../proveedor/proveedor.model"
+
+model Profecional {
+	id		Int		@id @default(autoincrement())
+
+	idPersona	Int			@unique
+	idProveedor	Int			@unique
+
+	estado		Int			@default(1)
+
+	persona		Persona		@relation(fields: [idPersona], references: [id])
+	proveedor	Proveedor	@relation(fields: [idProveedor], references: [id])
+}

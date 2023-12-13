@@ -1,0 +1,20 @@
+
+type Beneficiario {
+	id:			Int!
+	codigo:		Int!
+	ficha:		Int!
+	fechaAlta:	DateTime!
+	fechaBaja:	DateTime
+	sindical:	Boolean!
+	telefono:	String!
+
+	persona:	Persona!
+
+	titularBeneficiario:	Beneficiario
+	dependientes:			[Beneficiario!]!
+}
+
+type Query {
+	beneficiarios: [Beneficiario!]! @authorized
+	beneficiario(id: Int!): Beneficiario! @authorized
+}

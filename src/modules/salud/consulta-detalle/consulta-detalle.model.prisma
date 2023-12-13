@@ -1,0 +1,14 @@
+
+import { Consulta } from "../consulta/consulta.model"
+
+model ConsultaDetalle {
+	id			Int	@id @default(autoincrement())
+	motivo		String
+	diagnostico	String
+
+	estado		Int		@default(1)
+
+	idConsulta	Int	@unique
+
+	consulta	Consulta	@relation(fields: [idConsulta], references: [id])
+}

@@ -1,0 +1,11 @@
+
+type ServicioMedico {
+	id:				Int!
+	nombre:			String!
+	descripcion:	String!
+}
+
+type Query {
+	serviciosMedicos: [ServicioMedico!]! @authorized
+	servicioMedico(id: Int!): ServicioMedico! @authorized
+}

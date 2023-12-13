@@ -1,0 +1,14 @@
+
+type Interconsulta {
+	id:				Int!
+	fechaInicio:	DateTime!
+	fechaFin:		DateTime!
+	observaciones:	String!
+
+	consulta:		Consulta!
+	unidadMedica:	UnidadMedica!
+	proveedor:		Proveedor!
+
+	servicios:		[ServicioMedico!]!
+	especialidades:	[EspecialidadMedica!]!
+}

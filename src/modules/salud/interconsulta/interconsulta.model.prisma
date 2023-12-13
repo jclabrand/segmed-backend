@@ -1,0 +1,54 @@
+
+import { Consulta } from "../consulta/consulta.model"
+import { UnidadMedica } from "../unidad-medica/unidad-medica.model"
+import { Proveedor } from "../../referencia/proveedor/proveedor.model"
+import { ServicioMedico } from "../../catalogo/servicio-medico/servicio-medico.model"
+import { EspecialidadMedica } from "../../catalogo/especialidad-medica/especialidad-medica.model"
+
+model Interconsulta {
+	id				Int	@id @default(autoincrement())
+	fechaInicio		DateTime
+	fechaFin		DateTime
+	observaciones	String
+
+	estado			Int		@default(1)
+
+	idConsulta		Int
+	idUnidadMedica	Int
+	idProveedor		Int
+
+	consulta		Consulta		@relation(fields: [idConsulta], references: [id])
+	unidadMedica	UnidadMedica	@relation(fields: [idUnidadMedica], references: [id])
+	proveedor		Proveedor		@relation(fields: [idProveedor], references: [id])
+
+	serviciosMedicosInterconsultas		ServicioMedicoInterconsulta[]
+	especialidadesMedicasInterconsultas	EspecialidadMedicaInterconsulta[]
+}
+
+model ServicioMedicoInterconsulta {
+	id					Int		@default(autoincrement()) @unique
+
+	idInterconsulta		Int
+	idServicioMedico	Int
+
+	estado				Int		@default(1)
+
+	interconsulta	Interconsulta	@relation(fields: [idInterconsulta], references: [id], onDelete: NoAction, onUpdate: NoAction)
+	servicioMedico	ServicioMedico	@relation(fields: [idServicioMedico], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+	@@id([ idInterconsulta, idServicioMedico ])
+}
+
+model EspecialidadMedicaInterconsulta {
+	id						Int		@default(autoincrement()) @unique
+
+	idInterconsulta			Int
+	idEspecialidadMedica	Int
+
+	estado				Int		@default(1)
+
+	interconsulta		Interconsulta		@relation(fields: [idInterconsulta], references: [id], onDelete: NoAction, onUpdate: NoAction)
+	especialidadMedica	EspecialidadMedica	@relation(fields: [idEspecialidadMedica], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+	@@id([ idInterconsulta, idEspecialidadMedica ])
+}

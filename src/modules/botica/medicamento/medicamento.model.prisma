@@ -1,0 +1,10 @@
+
+model Medicamento {
+	id				Int		@id @default(autoincrement())
+	codigo			String	@unique
+	descripcion		String
+	concentracion	String
+	liname			Boolean
+
+	estado			Int		@default(1)
+}

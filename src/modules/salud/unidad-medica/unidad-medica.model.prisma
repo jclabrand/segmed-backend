@@ -1,0 +1,14 @@
+
+import { Proveedor } from "../../referencia/proveedor/proveedor.model"
+import { Interconsulta } from "../interconsulta/interconsulta.model"
+
+model UnidadMedica {
+	id			Int		@id @default(autoincrement())
+	nombre		String	@unique
+	descripcion	String
+
+	estado		Int		@default(1)
+
+	proveedores		Proveedor[]
+	interconsultas	Interconsulta[]
+}
